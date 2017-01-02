@@ -1,0 +1,29 @@
+<header>
+  <h1>Test Meteor AngularV1</h1><br>
+  Tuto 1ere appli : 
+  Utilisation Mongo/Minimongo +  
+  Authentification<br>
+  <login-buttons>Welcome ...</login-buttons>
+  <br>
+  <button ng-click="$ctrl.addMany()" ng-show="$ctrl.currentUser">Add Many tasks</button>
+  
+  Taches a completer : {{$ctrl.incompleteCount}} / {{$ctrl.totalCount}}
+   <label class="hide-completed">
+    <input type="checkbox" ng-model="$ctrl.hideCompleted"/>
+    Hide Completed Tasks
+  </label>
+
+  <form class="new-task" ng-submit="$ctrl.addTask($ctrl.newTask)" ng-show="$ctrl.currentUser">
+    <input ng-model="$ctrl.newTask" type="text" name="text" placeholder="Type to add new tasks"/>
+  </form>
+</header>
+ 
+<ul>
+  <li ng-repeat="task in $ctrl.tasks" ng-class="{'checked': task.checked}">
+    <input type="checkbox" ng-checked="task.checked" ng-click="$ctrl.setChecked(task)" class="toggle-checked"/>
+    <button class="delete" ng-click="$ctrl.removeTask(task)">&times;</button>
+    <span class="text">
+      <strong>{{task.username}}</strong> - {{task.text}}
+    </span>
+  </li>
+</ul>
