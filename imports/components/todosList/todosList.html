@@ -1,11 +1,11 @@
 <header>
-  <h1>Todolist Meteor AngularV1</h1><br>
+  <h1>Todolist Meteor AngularV1 - bienvenue {{$ctrl.currentUser.username}}</h1><br>
   Tuto 1ere appli : 
   Utilisation Mongo/Minimongo +  
-  Authentification<br>
-  <login-buttons>Welcome ...</login-buttons>
+  Authentification + securité<br>
+  <login-buttons>Welcome ...</login-buttons> [{{$ctrl.currentUser.emails[0].address}}]
   <br>
-  <button ng-click="$ctrl.addMany()" ng-show="$ctrl.currentUser">Add Many tasks</button>
+  <button ng-click="$ctrl.addMany()" ng-show="$ctrl.currentUser">Ajoutes 50 taches</button>
   
   Taches a completer : {{$ctrl.incompleteCount}} / {{$ctrl.totalCount}}
    <label class="hide-completed">
@@ -19,11 +19,15 @@
 </header>
  
 <ul>
-  <li ng-repeat="task in $ctrl.tasks" ng-class="{'checked': task.checked}">
+  <li ng-repeat="task in $ctrl.tasks" ng-class="{'checked': task.checked, 'private': task.private}">
+    <button class="toggle-private" ng-click="$ctrl.setPrivate(task)" ng-disabled="task.owner !== $ctrl.currentUser._id">
+      {{task.private == true ? "Private" : "Public"}}
+    </button>
     <input type="checkbox" ng-checked="task.checked" ng-click="$ctrl.setChecked(task)" class="toggle-checked"/>
     <button class="delete" ng-click="$ctrl.removeTask(task)">&times;</button>
     <span class="text">
       <strong>{{task.username}}</strong> - {{task.text}}
     </span>
+
   </li>
 </ul>
