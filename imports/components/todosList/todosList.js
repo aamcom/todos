@@ -46,15 +46,10 @@ class TodosListCtrl {
     })
   }
 
-addTask(newTask) {
+  addTask(newTask) {
     // Insert a task into the collection
-    Tasks.insert({
-      text: newTask,
-      createdAt: new Date,
-      owner: Meteor.userId(),
-      username: Meteor.user().username
-    });
- 
+
+    Meteor.call('tasks.insert', newTask);
     // Clear form
     this.newTask = '';
   }
@@ -64,16 +59,11 @@ addTask(newTask) {
 
     // Insert 50 tasks into the collection
     for(i=0;i<50;i++){
-    var s= "voici la tache n°" + i + " avec un peu d'alea : " + Math.round(Math.random()*1000); 
-    Tasks.insert({
-      text: s,
-      createdAt: new Date,
-      owner: Meteor.userId(),
-      username: Meteor.user().username
-    });
+      var s= "voici la tache n°" + i + " avec un peu d'alea : " + Math.round(Math.random()*1000); 
+      Meteor.call('tasks.insert', s);
     }
 
-    // Clear form
+    // Calcul temps
     var d2 = Date.parse(new Date());
     console.log ('date2=',d2);
     console.log ('durée=',d2-d1);
@@ -81,14 +71,12 @@ addTask(newTask) {
   }
   setChecked(task) {
     // Set the checked property to the opposite of its current value
-    Tasks.update(task._id, {
-      $set: {
-        checked: !task.checked
-      },
-    });
+    Meteor.call('tasks.setChecked', task._id, !task.checked);
   }
   removeTask(task) {
-    Tasks.remove(task._id);
+    console.log(task)
+    Meteor.call('tasks.remove',task._id,task.owner);
+    
   }
 }
 
